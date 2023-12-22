@@ -59,17 +59,22 @@
           <ul class="navbar-nav">
             {% if user.is_authenticated %}
               <li class="nav_item ">
-                {% block heart %}<a href="{% url 'fav' %}" class="nav-link"><i class="bi bi-heart"></i></a>{% endblock %}
+                <a href="{% url 'fav' %}" class="nav-link"><i class="bi bi-heart"></i></a>
               </li>
+              {% if user.is_superuser %}
+                <li class="nav_item ">
+                  <a href="{% url 'adm_all' %}" class="nav-link">Администрирование</a>
+                </li>  
+              {% endif %}
               <li class="nav_item ">
-                {% block logout %}<a href="{% url 'logout' %}" class="nav-link">Выход</a>{% endblock %}
+                <a href="{% url 'logout' %}" class="nav-link">Выход</a>
               </li>  
             {% else %}
               <li class="nav_item ">
-                {% block admin %}<a href="" class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal">Вход</a>{% endblock %}
+                <a href="" class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal">Вход</a>
               </li>
               <li class="nav_item ">
-                {% block reg %}<a href="" class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal">Регистрация</a>{% endblock %}
+                <a href="" class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal">Регистрация</a>
               </li>
             {% endif %}
 
