@@ -1,0 +1,76 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Цветик-семицветик{% endblock %}</title>
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{% static 'css/style.css' %} " rel="stylesheet">
+  </head>
+  <body>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+      <div class="container">
+        <a href="{% url 'index' %}" class="navbar-brand" >Цветик-семицветик</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" 
+          aria-controls="navbarContent" aria-expanded="false">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav me-auto">
+            <li class="nav_item">
+              <a href="{% url 'index' %}" class="nav-link">Главная страница</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Категории
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Аизоновые</a></li>
+                <li><a class="dropdown-item" href="#">Акантовые</a></li>
+                <li><a class="dropdown-item" href="#">Амариллисовые</a></li>
+                <li><a class="dropdown-item" href="#">Ароидные</a></li>
+                <li><a class="dropdown-item" href="#">Аспаргусовые</a></li>
+                <li><a class="dropdown-item" href="#">Бромелиевые</a></li>
+                <li><a class="dropdown-item" href="#">Геснериевые</a></li>
+                <li><a class="dropdown-item" href="#">Кактусы</a></li>
+                <li><a class="dropdown-item" href="#">Кутровые</a></li>
+                <li><a class="dropdown-item" href="#">Марантовые</a></li>
+                <li><a class="dropdown-item" href="#">Орхидеи</a></li>
+                <li><a class="dropdown-item" href="#">Пальмы</a></li>
+                <li><a class="dropdown-item" href="#">Папоротники</a></li>
+                <li><a class="dropdown-item" href="#">Суккуленты</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Декоративно-лиственные</a></li>
+                <li><a class="dropdown-item" href="#">Декоративно-цветущие</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{% url 'all' %}">Все растения</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            <li class="nav_item ">
+              {% block admin %}<a href="{% url 'adm_all' %}" class="nav-link">Вход</a>{% endblock %}
+            </li>
+          </ul>
+        </dsv>
+      </div>
+    </nav>
+
+    {% block body %}{% endblock %}
+
+    <footer class="page-footer font-small mt-5 pt-5"> 
+      <div class="footer-copyright text-center py-3 ">© 2023 Валерия Шевченко</div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>  
+  </body>
+</html>

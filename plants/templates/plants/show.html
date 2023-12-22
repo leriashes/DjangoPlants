@@ -1,0 +1,104 @@
+{% extends 'plants/base.html' %}
+{% load static %}
+
+{% block title %}{{rastenie.nazvanie}}{% endblock %}
+
+{% block body %}
+  <main>
+    <div class="container mt-5 py-5">
+      <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a class="text-dark" href="{% url 'index' %}">Главная</a></li>
+          <li class="breadcrumb-item"><a class="text-dark" href="{% url 'all' %}">Каталог</a></li>
+          {% if rastenie.semeystvo %}
+            <li class="breadcrumb-item"><a class="text-dark" href="">{{rastenie.semeystvo.nazvanie}}</a></li>
+          {% endif %}
+          <li class="breadcrumb-item active" aria-current="page">{{rastenie.nazvanie}}</li>
+        </ol>
+      </nav>
+
+      <div class="row pb-2">
+        <div class="col-6">
+          <h1>{{rastenie.nazvanie}}</h1>
+        </div>
+      </div>
+
+      <div class="row pb-3">
+        <div class="col-lg-5 col-12">
+          <div class="card shadow">
+            <img src="../plants/uploads/{{ rastenie.izobrazhenie }}" class="rounded-start rounded-end" alt="">
+          </div>
+        </div>
+        <div class="col-lg-7 col-12 mt-lg-0 mt-3">
+          <div class="card shadow py-2 px-2">
+            <div class="nav nav-pills flex-column flex-sm-row" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+              <button class="tab flex-sm-fill text-sm-center nav-link active" id="v-pills-description-tab" data-bs-toggle="pill" data-bs-target="#v-pills-description" type="button" role="tab" aria-controls="v-pills-description" aria-selected="true">Описание</button>
+              <button class="tab flex-sm-fill text-sm-center nav-link " id="v-pills-temperature-tab" data-bs-toggle="pill" data-bs-target="#v-pills-temperature" type="button" role="tab" aria-controls="v-pills-temperature" aria-selected="false">Температура</button>
+              <button class="tab flex-sm-fill text-sm-center nav-link" id="v-pills-lighting-tab" data-bs-toggle="pill" data-bs-target="#v-pills-lighting" type="button" role="tab" aria-controls="v-pills-lighting" aria-selected="false">Освещение</button>
+              <button class="tab flex-sm-fill text-sm-center nav-link" id="v-pills-watering-tab" data-bs-toggle="pill" data-bs-target="#v-pills-watering" type="button" role="tab" aria-controls="v-pills-watering" aria-selected="false">Полив</button>
+              <button class="tab flex-sm-fill text-sm-center nav-link " id="v-pills-manuring-tab" data-bs-toggle="pill" data-bs-target="#v-pills-manuring" type="button" role="tab" aria-controls="v-pills-manuring" aria-selected="false">Удобрение</button>
+              <button class="tab flex-sm-fill text-sm-center nav-link" id="v-pills-humidity-tab" data-bs-toggle="pill" data-bs-target="#v-pills-humidity" type="button" role="tab" aria-controls="v-pills-humidity" aria-selected="false">Влажность воздуха</button>
+              <button class="tab flex-sm-fill text-sm-center nav-link" id="v-pills-transplant-tab" data-bs-toggle="pill" data-bs-target="#v-pills-transplant" type="button" role="tab" aria-controls="v-pills-transplant" aria-selected="false">Пересадка</button>
+              <button class="tab flex-sm-fill text-sm-center nav-link" id="v-pills-breeding-tab" data-bs-toggle="pill" data-bs-target="#v-pills-breeding" type="button" role="tab" aria-controls="v-pills-breeding" aria-selected="false">Размножение</button>
+            </div>
+          </div>
+          
+          <div class="card shadow py-2 px-2 mt-3">
+            <div class="d-flex align-items-start">
+              <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane show active" id="v-pills-description" role="tabpanel" aria-labelledby="v-pills-description-tab">
+                  <div class="container">
+                    <h2>Описание</h2>
+                    <p>{{rastenie.opisanie}}</p>
+                  </div>
+                </div>
+                <div class="tab-pane" id="v-pills-temperature" role="tabpanel" aria-labelledby="v-pills-temperature-tab">
+                  <div class="container">
+                    <h2>Температура</h2>
+                    <p>{{rastenie.temperatura}}</p>         
+                  </div>
+                </div>
+                <div class="tab-pane" id="v-pills-lighting" role="tabpanel" aria-labelledby="v-pills-lighting-tab">
+                  <div class="container">
+                    <h2>Освещение</h2>
+                    <p>{{rastenie.osveshenie}}</p>         
+                  </div>
+                </div>
+                <div class="tab-pane" id="v-pills-watering" role="tabpanel" aria-labelledby="v-pills-watering-tab">
+                  <div class="container">
+                    <h2>Полив</h2>
+                    <p>{{rastenie.poliv}}</p>                                 
+                  </div>
+                </div>
+                <div class="tab-pane" id="v-pills-manuring" role="tabpanel" aria-labelledby="v-pills-manuring-tab">
+                  <div class="container">
+                    <h2>Удобрение</h2>
+                    <p>{{rastenie.udobrenie}}</p>                                 
+                  </div>
+                </div>
+                <div class="tab-pane" id="v-pills-humidity" role="tabpanel" aria-labelledby="v-pills-humidity-tab">
+                  <div class="container">
+                    <h2>Влажность воздуха</h2>
+                    <p>{{rastenie.vlazhnost}}</p>                                 
+                  </div>
+                </div>
+                <div class="tab-pane" id="v-pills-transplant" role="tabpanel" aria-labelledby="v-pills-transplant-tab">
+                  <div class="container">
+                    <h2>Пересадка</h2>
+                    <p>{{rastenie.peresadka}}</p>                                 
+                  </div>
+                </div>
+                <div class="tab-pane" id="v-pills-breeding" role="tabpanel" aria-labelledby="v-pills-breeding-tab">
+                  <div class="container">
+                    <h2>Размножение</h2>
+                    <p>{{rastenie.razmnozhenie}}</p>                                 
+                  </div>
+                </div>
+              </div>  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+{% endblock %}

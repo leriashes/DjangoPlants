@@ -1,0 +1,110 @@
+{% extends 'plants/base.html' %}
+{% load static %}
+
+{% block title %}Добавление растения{% endblock %}
+
+{% block admin %}<a href="{% url 'index' %}" class="nav-link">Выход</a>{% endblock %}
+
+{% block body %}
+  <main>
+    <div class="container mt-5 py-5">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a class="text-dark" href="{% url 'adm_all' %}"><i class="bi bi-arrow-left"></i>   Редактирование каталога</a></li>
+        </ol>
+      </nav>
+      <form method="POST" class="rastenie-form" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="row pb-2">
+          <div class="col-12 col-md-8">
+            <h2>Сведения о растении</h2>
+          </div>
+          <div class="col-12 col-md-4 align-self-center">
+            <div class="d-grid gap-2 d-md-flex">
+              <button type="reset" class="btn light-btn col">Отменить изменения</button>
+              <button type="submit" class="btn green-btn col">Сохранить</button>
+            </div>
+          </div>
+        </div> 
+
+        <div class="row mb-3">
+          <div class="col-12 col-md-4">
+            <label class="form-label">{{ form.nazvanie.label }}</label>
+            {{ form.nazvanie}}
+          </div>
+
+          <div class="col-12 col-sm-6 col-md-4">
+            <label class="form-label">{{ form.semeystvo.label }}</label>
+            {{ form.semeystvo }}
+          </div>
+
+          <div class="col-12 col-sm-6 col-md-4 mb-3">
+            <label class="form-label">{{ form.gruppi.label }}</label>
+            {{ form.gruppi }}
+          </div>
+        </div>
+
+        <label class="form-label">{{ form.izobrazhenie.label }}</label>
+
+        <div class="row mb-3">
+          {% if form.instance.izobrazhenie %}
+            <div class="col-12 col-md-4 mb-3">
+              <div class="card shadow">
+                <img src="../../plants/uploads/{{ form.instance.izobrazhenie }}" class="rounded-start rounded-end" alt="">
+              </div>
+            </div>
+
+            <div class="col-12 col-md-8">
+              {{ form.izobrazhenie }}
+            </div>
+          {% else %}
+            <div class="col">
+              {{ form.izobrazhenie }}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">{{ form.opisanie.label }}</label>
+          {{ form.opisanie }}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">{{ form.temperatura.label }}</label>
+          {{ form.temperatura }}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">{{ form.osveshenie.label }}</label>
+          {{ form.osveshenie }}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">{{ form.poliv.label }}</label>
+          {{ form.poliv }}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">{{ form.udobrenie.label }}</label>
+          {{ form.udobrenie }}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">{{ form.vlazhnost.label }}</label>
+          {{ form.vlazhnost }}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">{{ form.peresadka.label }}</label>
+          {{ form.peresadka }}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">{{ form.razmnozhenie.label }}</label>
+          {{ form.razmnozhenie }}
+        </div>
+      </form>
+    </div>
+  </main>
+{% endblock %}
