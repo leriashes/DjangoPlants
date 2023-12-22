@@ -58,6 +58,9 @@
           </ul>
           <ul class="navbar-nav">
             <li class="nav_item ">
+              {% block heart %}<a href="{% url 'adm_all' %}" class="nav-link"><i class="bi bi-heart"></i></a>{% endblock %}
+            </li>
+            <li class="nav_item ">
               {% block admin %}<a href="{% url 'adm_all' %}" class="nav-link">Вход</a>{% endblock %}
             </li>
           </ul>

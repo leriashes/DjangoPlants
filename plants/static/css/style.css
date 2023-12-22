@@ -63,7 +63,15 @@ option:checked {
     visibility: visible;
 }
 
-.bi-pencil-square {
+.bi-pencil-square, .bi-heart {
+    font-size: 29px;
+    color:rgba(134, 74, 74, 0.8);
+    position: absolute;
+    bottom: 0px;
+    right: 8px;
+}
+
+.bi-heart {
     font-size: 29px;
     color:rgb(74, 134, 97, 0.8);
     position: absolute;
