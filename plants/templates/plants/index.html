@@ -12,7 +12,6 @@
           <div class="carousel-caption">
             <h2><a href="#" class="text-light">Суккуленты</a></h2>
             <p>Маленькие и модные</p>
-            <label class="form-label">{{ form.nazvanie.label }}</label>
           </div>
         </div>
         <div class="carousel-item">
@@ -98,4 +97,40 @@
       <button onclick="document.location='{% url 'all' %}'" class="btn bg-light shadow-sm" type="button">Перейти в каталог</button>
     </div>
   </main>
+
+
+{% block content %}
+    <div class="row" id="post-container">
+        <!-- Здесь будут отображаться карточки постов -->
+    </div>
+{% endblock %}
+{% block javascript %}
+    <script>
+        // Функция для получения списка постов с помощью AJAX
+        function getPosts() {
+            $.ajax({
+                url: '',
+                type: 'get',
+                dataType: 'json',
+                success: function(response) {
+                    // Если данные успешно получены, то создаем карточки для каждого поста
+                    $.each(response, function(index, rastenie) {
+                        var card = '<div class="col-md-4">' +
+                                   '<div class="card">' +
+                                   '<div class="card-body">' +
+                                   '<h5 class="card-title">' + rastenie.nazvanie + '</h5>' +
+                                   '<p class="card-text">' + rastenie.content + '</p>' +
+                                   '</div>' +
+                                   '</div>' +
+                                   '</div>';
+                        $('#post-container').append(card);
+                    $('#post-container').append("card");
+                    });
+                }
+            });
+        }
+        // Вызываем функцию для получения списка постов
+        getPosts();
+    </script>
+{% endblock %}
 {% endblock %}

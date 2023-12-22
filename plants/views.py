@@ -9,9 +9,31 @@ from .models import Rastenie
 from .forms import RastenieForm
 from .forms import LoginForm
 from .forms import RegistrationForm
+from django.http import JsonResponse
 
 
 # Create your views here.
+
+def get_rastenies(request):
+    rastenies = Rastenie.objects.all()
+    data = []
+    
+    for rastenie in rastenies:
+        fav = False
+        logined = request.user.is_authenticated
+
+        if logined:
+            if rastenie.izbrannoe.filter(id=request.user.id).exists():
+                fav = True
+        
+        data.append({
+            'logined': logined,
+            'nazvanie': rastenie.nazvanie,
+            'izobrazhenie': rastenie.izobrazhenie,
+            'pk': rastenie.pk,
+            'fav': fav
+        })
+    return JsonResponse(data, safe=False)
 
 def Login(request):
     if request.user.is_authenticated:
@@ -47,7 +69,7 @@ def RegisterUser(request):
         if regForm.is_valid():
             user = regForm.save(commit=False)
             user.set_password(regForm.cleaned_data['password'])
-            user.is_active = False
+            user.is_active = True
             user.save()
             return redirect('index')
     else:
@@ -55,6 +77,7 @@ def RegisterUser(request):
     return regForm
 
 def rastenie_index(request):
+    get_rastenies(request)
     form = RegisterUser(request)
     rastenies = Rastenie.objects.filter(opublikovano=True).order_by('data_izmen')[:6]
     if not request.user.is_anonymous:
