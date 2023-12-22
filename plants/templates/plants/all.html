@@ -83,9 +83,17 @@
                     </div>
                   </div>
 
-                  <a href="" class="">
-                    <i class="bi bi-heart fav"></i>
-                  </a>
+                  {% if user.is_authenticated %}
+                    {% if rastenie in favrastenies %}
+                      <a href="{% url 'fav_add' pk=rastenie.pk %}" class="">
+                        <i class="bi bi-heart-fill fav"></i>
+                      </a>
+                    {% else %}
+                      <a href="{% url 'fav_add' pk=rastenie.pk %}" class="">
+                        <i class="bi bi-heart fav"></i>
+                      </a>
+                    {% endif %}
+                  {% endif %}
                   
                 </div>
               </div>

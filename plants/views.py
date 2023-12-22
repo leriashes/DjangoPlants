@@ -57,16 +57,30 @@ def RegisterUser(request):
 def rastenie_index(request):
     form = RegisterUser(request)
     rastenies = Rastenie.objects.filter(opublikovano=True).order_by('data_izmen')[:6]
-    return render(request, 'plants/index.html', {'rastenies' : rastenies, "form" : form})
+    if not request.user.is_anonymous:
+        favrastenies = Rastenie.objects.filter(izbrannoe=request.user).order_by('data_izmen')
+        return render(request, 'plants/index.html', {'rastenies' : rastenies, 'favrastenies' : favrastenies, "form" : form})
+    else:
+        return render(request, 'plants/index.html', {'rastenies' : rastenies, "form" : form})
 
 def rastenie_all(request):
     rastenies = Rastenie.objects.filter(opublikovano=True).order_by('nazvanie')
-    return render(request, 'plants/all.html', {'rastenies' : rastenies})
+    favrastenies = Rastenie.objects.filter(izbrannoe=request.user).order_by('data_izmen')
+    return render(request, 'plants/all.html', {'rastenies' : rastenies, 'favrastenies' : favrastenies})
 
 @login_required(login_url="/login")
 def rastenie_fav(request):
-    rastenies = Rastenie.objects.filter(opublikovano=True).order_by('nazvanie')
+    rastenies = Rastenie.objects.filter(izbrannoe=request.user).order_by('nazvanie')
     return render(request, 'plants/fav.html', {'rastenies' : rastenies})
+
+@login_required(login_url="/login")
+def rastenie_fav_add(request, pk):
+    rastenie = get_object_or_404(Rastenie, pk=pk)
+    if rastenie.izbrannoe.filter(id=request.user.id).exists():
+        rastenie.izbrannoe.remove(request.user)
+    else:
+        rastenie.izbrannoe.add(request.user)
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 def rastenie_show(request, pk):
     rastenie = get_object_or_404(Rastenie, pk=pk)

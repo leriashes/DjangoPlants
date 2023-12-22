@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -29,9 +30,4 @@ class Rastenie(models.Model):
     razmnozhenie = models.TextField(blank=True, null=True)
     semeystvo = models.ForeignKey(Semeystvo, on_delete=models.SET_NULL, blank=True, null=True)
     gruppi = models.ManyToManyField(Gruppa,  blank=True)
-
-class Person(models.Model):
-    login = models.CharField(max_length=50)
-    psswd = models.CharField(max_length=30)
-    admn = models.BooleanField(default=False, blank=True)
-    izbrannoe = models.ManyToManyField(Rastenie, blank=True)
+    izbrannoe = models.ManyToManyField(User, blank=True)

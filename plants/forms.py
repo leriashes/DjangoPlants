@@ -34,7 +34,6 @@ class RegistrationForm(forms.ModelForm):
         model = User
         fields = ('username', 'password')
 
-
     def clean_username(self):
         username = self.cleaned_data['username'].lower()
         r = User.objects.filter(username=username)
