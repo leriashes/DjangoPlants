@@ -71,9 +71,12 @@
                       </div>
                     </div>
 
-                    <a href="" class="">
-                      <i class="bi bi-heart"></i>
-                    </a>
+                    {% if user.is_authenticated %}
+                      <a href="" class="">
+                        <i class="bi bi-heart fav"></i>
+                      </a>
+                    {% endif %}
+                    
 
                   </div>
                 </div>

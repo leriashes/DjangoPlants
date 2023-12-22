@@ -18,3 +18,7 @@ class RastenieForm(forms.ModelForm):
                     'vlazhnost': forms.Textarea(attrs={'class': 'form-control'}),
                     'peresadka': forms.Textarea(attrs={'class': 'form-control'}),
                     'razmnozhenie': forms.Textarea(attrs={'class': 'form-control'})}
+
+class LoginForm(forms.ModelForm):
+    login = forms.CharField()
+    psswd =  forms.CharField(widget=forms.PasswordInput)

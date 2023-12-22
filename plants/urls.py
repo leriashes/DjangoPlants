@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     path('', views.rastenie_index, name='index'),
     path('all', views.rastenie_all, name='all'),
+    path('favourites', views.rastenie_fav, name='fav'),
     path('<int:pk>/', views.rastenie_show, name='show'),
     path('admin/all', views.rastenie_adm_all, name='adm_all'),
     path('admin/new/', views.rastenie_new, name='new'),

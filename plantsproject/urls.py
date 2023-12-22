@@ -18,10 +18,15 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from plants import views
 
 urlpatterns = [
     path('', include('plants.urls')),
+    path('login', views.Login, name="login"),
+    path('logout', views.LogoutUser, name="logout"),
+    path('login_user', views.LoginUser, name="login_user"),
     path('admin/', admin.site.urls),
+    #path('account/', include('django.contrib.auth.urls')),
 ]
 
 if settings.DEBUG:
