@@ -73,11 +73,11 @@
 
                     {% if user.is_authenticated %}
                       {% if rastenie in favrastenies %}
-                        <a href="{% url 'fav_add' pk=rastenie.pk %}" class="">
+                        <a data-type="plant" id="{{ rastenie.pk }}" data-id="{{ rastenie.pk }}" href="{% url 'fav_add' pk=rastenie.pk%}" class="add-to-fav added-to-fav">
                           <i class="bi bi-heart-fill fav"></i>
                         </a>
                       {% else %}
-                        <a href="{% url 'fav_add' pk=rastenie.pk %}" class="">
+                        <a data-type="plant" id="{{ rastenie.pk }}" data-id="{{ rastenie.pk }}" href="{% url 'fav_add' pk=rastenie.pk%}" class="add-to-fav">
                           <i class="bi bi-heart fav"></i>
                         </a>
                       {% endif %}
@@ -97,40 +97,4 @@
       <button onclick="document.location='{% url 'all' %}'" class="btn bg-light shadow-sm" type="button">Перейти в каталог</button>
     </div>
   </main>
-
-
-{% block content %}
-    <div class="row" id="post-container">
-        <!-- Здесь будут отображаться карточки постов -->
-    </div>
-{% endblock %}
-{% block javascript %}
-    <script>
-        // Функция для получения списка постов с помощью AJAX
-        function getPosts() {
-            $.ajax({
-                url: '',
-                type: 'get',
-                dataType: 'json',
-                success: function(response) {
-                    // Если данные успешно получены, то создаем карточки для каждого поста
-                    $.each(response, function(index, rastenie) {
-                        var card = '<div class="col-md-4">' +
-                                   '<div class="card">' +
-                                   '<div class="card-body">' +
-                                   '<h5 class="card-title">' + rastenie.nazvanie + '</h5>' +
-                                   '<p class="card-text">' + rastenie.content + '</p>' +
-                                   '</div>' +
-                                   '</div>' +
-                                   '</div>';
-                        $('#post-container').append(card);
-                    $('#post-container').append("card");
-                    });
-                }
-            });
-        }
-        // Вызываем функцию для получения списка постов
-        getPosts();
-    </script>
-{% endblock %}
 {% endblock %}

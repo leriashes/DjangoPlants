@@ -91,18 +91,46 @@ def rastenie_all(request):
     favrastenies = Rastenie.objects.filter(izbrannoe=request.user).order_by('data_izmen')
     return render(request, 'plants/all.html', {'rastenies' : rastenies, 'favrastenies' : favrastenies})
 
+def rastenie_list(request):
+    rastenies = Rastenie.objects.filter(izbrannoe=request.user).order_by('nazvanie')
+    return render(request, 'plants/rastlist.html', {'rastenies' : rastenies})
+
 @login_required(login_url="/login")
 def rastenie_fav(request):
     rastenies = Rastenie.objects.filter(izbrannoe=request.user).order_by('nazvanie')
     return render(request, 'plants/fav.html', {'rastenies' : rastenies})
 
 @login_required(login_url="/login")
-def rastenie_fav_add(request, pk):
-    rastenie = get_object_or_404(Rastenie, pk=pk)
-    if rastenie.izbrannoe.filter(id=request.user.id).exists():
-        rastenie.izbrannoe.remove(request.user)
-    else:
-        rastenie.izbrannoe.add(request.user)
+def rastenie_fav_add(request, pk=None):
+    # rastenie = get_object_or_404(Rastenie, pk=pk)
+    # if rastenie.izbrannoe.filter(id=request.user.id).exists():
+    #     rastenie.izbrannoe.remove(request.user)
+    # else:
+    #     rastenie.izbrannoe.add(request.user)
+    # return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+    if request.method == "GET":
+        rastenie = get_object_or_404(Rastenie, pk=pk)
+
+        if rastenie.izbrannoe.filter(id=request.user.id).exists():
+            rastenie.izbrannoe.remove(request.user)
+        else:
+            rastenie.izbrannoe.add(request.user)
+
+    if request.method == "POST":
+        rastenie = get_object_or_404(Rastenie, pk=request.POST.get('id'))
+
+        if rastenie.izbrannoe.filter(id=request.user.id).exists():
+            rastenie.izbrannoe.remove(request.user)
+        else:
+            rastenie.izbrannoe.add(request.user)
+    
+    if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+        data = {
+            'type': request.POST.get('type'),
+            'id': request.POST.get('id'),
+        }
+        return JsonResponse(data)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 def rastenie_show(request, pk):

@@ -85,11 +85,11 @@
 
                   {% if user.is_authenticated %}
                     {% if rastenie in favrastenies %}
-                      <a href="{% url 'fav_add' pk=rastenie.pk %}" class="">
+                      <a data-type="plant" id="{{ rastenie.pk }}" data-id="{{ rastenie.pk }}" href="{% url 'fav_add' pk=rastenie.pk%}" class="add-to-fav added-to-fav">
                         <i class="bi bi-heart-fill fav"></i>
                       </a>
                     {% else %}
-                      <a href="{% url 'fav_add' pk=rastenie.pk %}" class="">
+                      <a data-type="plant" id="{{ rastenie.pk }}" data-id="{{ rastenie.pk }}" href="{% url 'fav_add' pk=rastenie.pk%}" class="add-to-fav">
                         <i class="bi bi-heart fav"></i>
                       </a>
                     {% endif %}

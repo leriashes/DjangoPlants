@@ -53,49 +53,8 @@
         </div>
       </div>
 
-      <div class="row">
-        {% for rastenie in rastenies %}
-          <div class="col-lg-4 col-sm-6 pb-3">
-            <div class="card shadow h-100">
-              <div class="row g-0 h-100">
-                <div class="col-6 col-sm-5">
-                  <a href="{% url 'show' pk=rastenie.pk %}">
-                    {% if rastenie.izobrazhenie %}
-                      <img src="plants/uploads/{{ rastenie.izobrazhenie }}" class="card-img img-fluid rounded-start" alt="" />
-                    {% else %}
-                      <img src="{% static 'img//plant.jpg' %}" class="card-img img-fluid rounded-start" alt="" />
-                    {% endif %}
-                  </a>
-                </div>
-                <div class="col-6 col-sm-7">
-                  <div class="card-body d-flex flex-colmn">
-                    <div class="h-100">
-                      <p class="text-uppercase font-small mt-1 mb-3">
-                        <a href="#" class="text-muted">
-                          {% if rastenie.semeystvo %}
-                            {{rastenie.semeystvo}}
-                          {% endif%}
-                        </a>
-                      </p>
-                      <p class="card-title mb-2">
-                        <a href="{% url 'show' pk=rastenie.pk %}" class="text-dark">{{rastenie.nazvanie}}</a>
-                      </p>
-                    </div>
-                  </div>
-
-                  {% if user.is_authenticated %}
-                      <a href="{% url 'fav_add' pk=rastenie.pk %}" class="">
-                        <i class="bi bi-heart-fill fav"></i>
-                      </a>
-                  {% endif %}
-                  
-                </div>
-              </div>
-            </div>
-          </div>
-        {% empty %}
-          <div class="col-md-12"><h3 class="text-center pt-4 pb-3" style="height: 400px;">Растения не найдены</h3></div>
-        {% endfor %}
+      <div class="row" id="fav-filter">
+        {% include 'plants/rastlist.html' %}
       </div>
     </div>
   </main>

@@ -77,6 +77,8 @@ option:checked {
     position: absolute;
     bottom: 2px;
     right: 8px;
+    
+    visibility: visible;
 }
 
 .bi-plus-square {
