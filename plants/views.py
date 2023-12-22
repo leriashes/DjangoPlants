@@ -8,6 +8,7 @@ from django.views.decorators.cache import cache_control
 from .models import Rastenie
 from .forms import RastenieForm
 from .forms import LoginForm
+from .forms import RegistrationForm
 
 
 # Create your views here.
@@ -36,9 +37,27 @@ def LogoutUser(request):
     request.user = None
     return redirect('index')
 
+def Register(request):
+    RegisterUser(request)
+    return redirect('index')
+
+def RegisterUser(request):
+    if request.method == "POST":
+        regForm = RegistrationForm(request.POST)
+        if regForm.is_valid():
+            user = regForm.save(commit=False)
+            user.set_password(regForm.cleaned_data['password'])
+            user.is_active = False
+            user.save()
+            return redirect('index')
+    else:
+        regForm = RegistrationForm()
+    return regForm
+
 def rastenie_index(request):
+    form = RegisterUser(request)
     rastenies = Rastenie.objects.filter(opublikovano=True).order_by('data_izmen')[:6]
-    return render(request, 'plants/index.html', {'rastenies' : rastenies})
+    return render(request, 'plants/index.html', {'rastenies' : rastenies, "form" : form})
 
 def rastenie_all(request):
     rastenies = Rastenie.objects.filter(opublikovano=True).order_by('nazvanie')

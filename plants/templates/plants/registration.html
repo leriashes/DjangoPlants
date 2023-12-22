@@ -1,26 +1,33 @@
-<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+<div class="modal fade" id="regModal" tabindex="-1" aria-labelledby="regModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <div class="modal-title" id="loginModalLabel">Вход</div>
+        <h2 class="modal-title" id="regModalLabel">Регистрация</h2>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="/login_user" method="POST" autocomplete="off">
+      <form action="/registration" method="POST" autocomplete="off">
         <div class="modal-body">
           {% csrf_token %}
           
           <div class="input-group mb-3 mt-3">
             <span class="input-group-text"><i class="bi bi-person"></i></span>
-            <input type="text" class="form-control" name="username" placeholder="Имя пользователя">
+            {{form.username}}
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text"><i class="bi bi-key"></i></span>
-            <input type="password" class="form-control" name="password" placeholder="Пароль">
+            {{form.password}}
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text"><i class="bi bi-key"></i></span>
+            {{form.password2}}
           </div>
         </div>
+        {% for error in form.non_field_errors %}
+    {{error}}
+{% endfor %}
         <div class="modal-footer">
           <button type="reset" class="btn light-btn" data-bs-dismiss="modal">Отмена</button>
-          <button type="submit" class="btn green-btn">Войти</button>
+          <button type="submit" class="btn green-btn">Зарегистрироваться</button>
         </div>
       </form>
     </div>

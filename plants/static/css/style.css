@@ -49,7 +49,7 @@ option:checked {
     border: none;
 }
 
-.navbar-brand, .card-title {
+.navbar-brand, .card-title, .modal-title {
     font-size: 30px;
     font-family: 'Caveat', cursive;
 }
