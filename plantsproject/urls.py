@@ -27,7 +27,6 @@ urlpatterns = [
     path('login_user', views.LoginUser, name="login_user"),
     path('registration', views.Register, name="registration"),
     path('admin/', admin.site.urls),
-    #path('account/', include('django.contrib.auth.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL,

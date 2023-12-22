@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
 from .models import Rastenie
+from .models import Gruppa
+from .models import Semeystvo
 from .forms import RastenieForm
 from .forms import LoginForm
 from .forms import RegistrationForm
@@ -13,28 +15,6 @@ from django.http import JsonResponse
 
 
 # Create your views here.
-
-def get_rastenies(request):
-    rastenies = Rastenie.objects.all()
-    data = []
-    
-    for rastenie in rastenies:
-        fav = False
-        logined = request.user.is_authenticated
-
-        if logined:
-            if rastenie.izbrannoe.filter(id=request.user.id).exists():
-                fav = True
-        
-        data.append({
-            'logined': logined,
-            'nazvanie': rastenie.nazvanie,
-            'izobrazhenie': rastenie.izobrazhenie,
-            'pk': rastenie.pk,
-            'fav': fav
-        })
-    return JsonResponse(data, safe=False)
-
 def Login(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
@@ -77,7 +57,6 @@ def RegisterUser(request):
     return regForm
 
 def rastenie_index(request):
-    get_rastenies(request)
     form = RegisterUser(request)
     rastenies = Rastenie.objects.filter(opublikovano=True).order_by('data_izmen')[:6]
     if not request.user.is_anonymous:
@@ -87,18 +66,28 @@ def rastenie_index(request):
         return render(request, 'plants/index.html', {'rastenies' : rastenies, "form" : form})
 
 def rastenie_all(request):
+    form = RegisterUser(request)
     rastenies = Rastenie.objects.filter(opublikovano=True).order_by('nazvanie')
-    favrastenies = Rastenie.objects.filter(izbrannoe=request.user).order_by('data_izmen')
-    return render(request, 'plants/all.html', {'rastenies' : rastenies, 'favrastenies' : favrastenies})
+    semeystvos = Semeystvo.objects.all().order_by('nazvanie')
+    gruppis = Gruppa.objects.all().order_by('nazvanie')
+
+    if not request.user.is_anonymous:
+        favrastenies = Rastenie.objects.filter(izbrannoe=request.user).order_by('data_izmen')
+        return render(request, 'plants/all.html', {'rastenies' : rastenies, 'favrastenies' : favrastenies, "form" : form})
+    else:
+        return render(request, 'plants/all.html', {'rastenies' : rastenies, "form" : form})
 
 def rastenie_list(request):
     rastenies = Rastenie.objects.filter(izbrannoe=request.user).order_by('nazvanie')
+
     return render(request, 'plants/rastlist.html', {'rastenies' : rastenies})
 
 @login_required(login_url="/login")
 def rastenie_fav(request):
+    semeystvos = Semeystvo.objects.all().order_by('nazvanie')
+    gruppis = Gruppa.objects.all().order_by('nazvanie')
     rastenies = Rastenie.objects.filter(izbrannoe=request.user).order_by('nazvanie')
-    return render(request, 'plants/fav.html', {'rastenies' : rastenies})
+    return render(request, 'plants/fav.html', {'rastenies' : rastenies, 'semeystvos' : semeystvos, 'gruppis' : gruppis})
 
 @login_required(login_url="/login")
 def rastenie_fav_add(request, pk=None):

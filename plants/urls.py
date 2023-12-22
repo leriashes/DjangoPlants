@@ -8,7 +8,6 @@ urlpatterns = [
     path('rastlist', views.rastenie_list, name='rastlist'),
     path('favourites/<int:pk>', views.rastenie_fav_add, name='fav_add'),
     path('favourites/add/', views.rastenie_fav_add, name='fav_add'),
-    #path('favourites/remove/', views.rastenie_fav_rem, name='fav_rem'),
     path('<int:pk>/', views.rastenie_show, name='show'),
     path('admin/all', views.rastenie_adm_all, name='adm_all'),
     path('admin/new/', views.rastenie_new, name='new'),

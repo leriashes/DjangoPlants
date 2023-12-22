@@ -10,48 +10,7 @@
         <div class="col-md-12"><h2 class="text-center pt-2 pb-3">Избранное</h2></div>
       </div>
 
-      <div class="row g-0 pb-3">
-        <div class="card shadow px-2 py-2">
-          <div class="row">
-            <div class="col-12 col-sm-6 col-md-4 pb-3 pb-sm-0">
-              <label class="form-label">Семейство</label>
-              <select class="form-select" aria-label="Default select example">
-                <option selected>Все</option>
-                <option value="1">Аизоновые</option>
-                <option value="2">Акантовые</option>
-                <option value="3">Амариллисовые</option>
-                <option value="4">Ароидные</option>
-                <option value="5">Аспаргусовые</option>
-                <option value="6">Бромелиевые</option>
-                <option value="7">Геснериевые</option>
-                <option value="8">Кактусы</option>
-                <option value="9">Кутровые</option>
-                <option value="10">Марантовые</option>
-                <option value="11">Орхидеи</option>
-                <option value="12">Пальмы</option>
-                <option value="13">Папоротники</option>
-                <option value="14">Суккуленты</option>
-              </select>
-            </div>
-
-            <div class="col-12 col-sm-6 col-md-4 pb-3 pb-md-0">
-              <label class="form-label">Группа</label>
-              <select class="form-select" aria-label="Default select example">
-                <option selected class="opt">Все</option>
-                <option value="1">Декоративно-лиственные</option>
-                <option value="2">Декоративно-цветущие</option>
-              </select>
-            </div>
-
-            <div class="col-12 col-md-4 align-self-end">
-              <div class="d-grid gap-2 d-md-flex">
-                <button type="button" class="btn green-btn col">Применить</button>
-                <button type="button" class="btn light-btn col">Сбросить</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      {% include 'plants/searchform.html' %}
 
       <div class="row" id="fav-filter">
         {% include 'plants/rastlist.html' %}
