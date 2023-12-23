@@ -78,30 +78,39 @@ def rastenie_all(request):
         return render(request, 'plants/all.html', {'rastenies' : rastenies, "form" : form})
 
 def rastenie_list(request):
-    rastenies = Rastenie.objects.filter(izbrannoe=request.user).order_by('nazvanie')
     sem = 0
     grup = 0
+    fav = False
+    day = False
 
-    if request.method == "GET":
-        form = SearchForm(request.GET)
-        if form.is_valid():
-            sem = request.GET.get('semeystvos')
-            grup = request.GET.get('gruppis')
-    elif request.method == "POST":
+    rastenies = Rastenie.objects.all()
+
+    # if request.method == "GET":
+    #     form = SearchForm(request.GET)
+    #     if form.is_valid():
+    #         sem = request.GET.get('semeystvos')
+    #         grup = request.GET.get('gruppis')
+    #         grup = request.GET.get('gruppis')
+    # el
+    if request.method == "POST":
         form = SearchForm(request.POST)
         if form.is_valid():
             sem = request.POST.get('semeystvos')
             grup = request.POST.get('gruppis')
+            fav = request.POST.get('fav')
+            day = request.POST.get('day')
     else:
         form = SearchForm()
 
-    if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-        print(sem, "po32s")
-        print(grup, "p3o2s")
-        sem = request.POST.get('semeystvos')
-        grup = request.POST.get('gruppis')
+    if fav:
+        rastenies = rastenies.filter(izbrannoe=request.user)
 
-    rastenies = Rastenie.objects.filter(izbrannoe=request.user).order_by('nazvanie')
+    if day:
+        rastenies = rastenies.order_by('-data_izmen')
+    else:
+        rastenies = rastenies.filter(opublikovano=True)
+        rastenies = rastenies.order_by('nazvanie')
+
 
     if (sem != '' and sem != 0 and sem != None):
         rastenies = rastenies.filter(semeystvo=sem)
@@ -123,13 +132,13 @@ def rastenie_fav(request):
         if form.is_valid():
             sem = request.GET.get('semeystvos')
             grup = request.GET.get('gruppis')
-    elif request.method == "POST":
-        form = SearchForm(request.POST)
-        print(sem, "pos")
-        print(grup, "pos")
-        if form.is_valid():
-            sem = request.POST.get('semeystvos')
-            grup = request.POST.get('gruppis')
+    # elif request.method == "POST":
+    #     form = SearchForm(request.POST)
+    #     print(sem, "pos")
+    #     print(grup, "pos")
+    #     if form.is_valid():
+    #         sem = request.POST.get('semeystvos')
+    #         grup = request.POST.get('gruppis')
     else:
         form = SearchForm()
 
@@ -139,6 +148,8 @@ def rastenie_fav(request):
         data = {
             'semeystvos': request.POST.get('semeystvos'),
             'gruppis': request.POST.get('gruppis'),
+            'fav' : True,
+            'day' : False,
         }
         return JsonResponse(data)
 

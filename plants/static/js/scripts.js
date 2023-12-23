@@ -25,8 +25,7 @@ $.ajaxSetup({
             xhr.setRequestHeader("X-CSRFToken", csrftoken);
         }
     }
-})
-
+})  
 
 function add_to_fav() {
     $('.add-to-fav').each((index, el) => {
@@ -37,6 +36,8 @@ function add_to_fav() {
             const id = $(el).data('id')
 
             if ($(el).hasClass('added-to-fav')) {
+                
+                console.log('fg')
                 $.ajax({
                     url: '/favourites/add/',
                     type: 'POST',
@@ -46,11 +47,14 @@ function add_to_fav() {
                         id: id,
                     },
                     success: (data) => {
+                        
+                        console.log(data)
                         $(el).removeClass('added-to-fav')
                         let ele = document.getElementById(id)
                         ele.innerHTML = '<i class="bi bi-heart fav"></i>';
-
-                        $('#fav-filter').load("rastlist");
+                        
+                        console.log(data)
+                        $('#fav-filter').load("rastlist", {'semeystvos' : data.semeystvos, 'gruppis' : data.gruppis, 'fav' : data.fav, 'day' : data.day});
                     },
                 })
             } else {
@@ -78,24 +82,30 @@ function search_rast() {
         $(el).click((e) => {
             e.preventDefault();
             console.log('knop')
-            var els = document.getElementById("sem");
-            var elg = document.getElementById("grup");
+    var els = document.getElementById("sem");
+    var elg = document.getElementById("grup");
+
+
+    if (els != null)
+    {
+        
+    console.log(elg.value)
+    $.ajax({
+        url: 'favourites',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            semeystvos: els.value,
+            gruppis: elg.value,
+        },
+        success: (data) => {
+            console.log('knop2')
             console.log(elg.value)
-            $.ajax({
-                url: 'favourites',
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    semeystvos: els.value,
-                    gruppis: elg.value,
-                },
-                success: (data) => {
-                    console.log('knop2')
-                    console.log(elg.value)
-                    $('#fav-filter').load("rastlist", {'semeystvos' : data.semeystvos, 'gruppis' : data.gruppis});
-                    console.log(data)
-                },
-            })
+            $('#fav-filter').load("rastlist", {'semeystvos' : data.semeystvos, 'gruppis' : data.gruppis, 'fav' : data.fav, 'day' : data.day});
+            console.log(data)
+        },
+    })
+    }
         })
     })
 }
