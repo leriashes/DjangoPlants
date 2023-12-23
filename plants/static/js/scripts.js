@@ -73,7 +73,34 @@ function add_to_fav() {
     })
 }
 
+function search_rast() {
+    $('.searchbtn').each((index, el) => {
+        $(el).click((e) => {
+            e.preventDefault();
+            console.log('knop')
+            var els = document.getElementById("sem");
+            var elg = document.getElementById("grup");
+            console.log(elg.value)
+            $.ajax({
+                url: 'favourites',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    semeystvos: els.value,
+                    gruppis: elg.value,
+                },
+                success: (data) => {
+                    console.log('knop2')
+                    console.log(elg.value)
+                    $('#fav-filter').load("rastlist", {'semeystvos' : data.semeystvos, 'gruppis' : data.gruppis});
+                    console.log(data)
+                },
+            })
+        })
+    })
+}
+
 $(document).ready(function(){
-    console.log('my message');
     add_to_fav();
+    search_rast();
 })

@@ -1,5 +1,7 @@
 from django import forms
 from .models import Rastenie
+from .models import Gruppa
+from .models import Semeystvo
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
@@ -21,9 +23,14 @@ class RastenieForm(forms.ModelForm):
                     'peresadka': forms.Textarea(attrs={'class': 'form-control'}),
                     'razmnozhenie': forms.Textarea(attrs={'class': 'form-control'})}
 
-class LoginForm(forms.ModelForm):
-    login = forms.CharField()
-    psswd =  forms.CharField(widget=forms.PasswordInput)
+class SearchForm(forms.Form):
+    semeystvos = forms.ModelChoiceField(label="", queryset=Semeystvo.objects.all().order_by('nazvanie'), empty_label="Все", required=False)
+    gruppis = forms.ModelChoiceField(label="", queryset=Gruppa.objects.all().order_by('nazvanie'), empty_label="Все", required=False)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['semeystvos'].widget.attrs.update({'class': 'form-select', 'id' : 'sem'})
+        self.fields['gruppis'].widget.attrs.update({'class': 'form-select', 'id' : 'grup'})
 
 class RegistrationForm(forms.ModelForm):
     username = forms.CharField(min_length=4, max_length=50, help_text="Обязательное поле")

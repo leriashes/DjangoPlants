@@ -9,8 +9,8 @@ from .models import Rastenie
 from .models import Gruppa
 from .models import Semeystvo
 from .forms import RastenieForm
-from .forms import LoginForm
 from .forms import RegistrationForm
+from .forms import SearchForm
 from django.http import JsonResponse
 
 
@@ -79,15 +79,79 @@ def rastenie_all(request):
 
 def rastenie_list(request):
     rastenies = Rastenie.objects.filter(izbrannoe=request.user).order_by('nazvanie')
+    sem = 0
+    grup = 0
+
+    if request.method == "GET":
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            sem = request.GET.get('semeystvos')
+            grup = request.GET.get('gruppis')
+    elif request.method == "POST":
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            sem = request.POST.get('semeystvos')
+            grup = request.POST.get('gruppis')
+    else:
+        form = SearchForm()
+
+    if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+        print(sem, "po32s")
+        print(grup, "p3o2s")
+        sem = request.POST.get('semeystvos')
+        grup = request.POST.get('gruppis')
+
+    rastenies = Rastenie.objects.filter(izbrannoe=request.user).order_by('nazvanie')
+
+    if (sem != '' and sem != 0 and sem != None):
+        rastenies = rastenies.filter(semeystvo=sem)
+
+    if (grup != '' and grup != 0 and grup != None):
+        rastenies = rastenies.filter(gruppi=grup)
+    print(sem)
+    print(grup)
 
     return render(request, 'plants/rastlist.html', {'rastenies' : rastenies})
 
 @login_required(login_url="/login")
 def rastenie_fav(request):
-    semeystvos = Semeystvo.objects.all().order_by('nazvanie')
-    gruppis = Gruppa.objects.all().order_by('nazvanie')
+    sem = 0
+    grup = 0
+
+    if request.method == "GET":
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            sem = request.GET.get('semeystvos')
+            grup = request.GET.get('gruppis')
+    elif request.method == "POST":
+        form = SearchForm(request.POST)
+        print(sem, "pos")
+        print(grup, "pos")
+        if form.is_valid():
+            sem = request.POST.get('semeystvos')
+            grup = request.POST.get('gruppis')
+    else:
+        form = SearchForm()
+
+    if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+        print(sem, "po2s")
+        print(grup, "po2s")
+        data = {
+            'semeystvos': request.POST.get('semeystvos'),
+            'gruppis': request.POST.get('gruppis'),
+        }
+        return JsonResponse(data)
+
     rastenies = Rastenie.objects.filter(izbrannoe=request.user).order_by('nazvanie')
-    return render(request, 'plants/fav.html', {'rastenies' : rastenies, 'semeystvos' : semeystvos, 'gruppis' : gruppis})
+
+    if (sem != '' and sem != 0 and sem != None):
+        rastenies = rastenies.filter(semeystvo=sem)
+
+    if (grup != '' and grup != 0 and grup != None):
+        rastenies = rastenies.filter(gruppi=grup)
+    print(sem, "p")
+    print(grup, "p")
+    return render(request, 'plants/fav.html', {'rastenies' : rastenies, 'form' : form})
 
 @login_required(login_url="/login")
 def rastenie_fav_add(request, pk=None):

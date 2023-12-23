@@ -1,34 +1,22 @@
-<form></form><div class="row g-0 pb-3">
+<form><div class="row g-0 pb-3">
   <div class="card shadow px-2 py-2">
     <div class="row">
-      
-        <div class="col-12 col-sm-6 col-md-4 pb-3 pb-sm-0">
-      
-          <label class="form-label">Семейство</label>
-          <select class="form-select" aria-label="Default select example">
-            <option selected value="0">Все</option>
-            {% for semeystvo in semeystvos %}
-              <option value="{{semeystvo.pk}}">{{semeystvo.nazvanie}}</option>
-            {% endfor %}
-          </select>
-        </div>
+      <div class="col-12 col-sm-6 col-md-4 pb-3 pb-sm-0">
+        <label class="form-label">Семейство</label>
+        {{form.semeystvos}}
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 pb-3 pb-md-0">
+        <label class="form-label">Группа</label>
+        {{form.gruppis}}
+      </div>
   
-        <div class="col-12 col-sm-6 col-md-4 pb-3 pb-md-0">
-          <label class="form-label">Группа</label>
-          <select class="form-select" aria-label="Default select example">
-            <option selected class="opt" value="0">Все</option>
-            {% for gruppa in gruppis %}
-              <option value="{{gruppa.pk}}">{{gruppa.nazvanie}}</option>
-            {% endfor %}
-          </select>
+      <div class="col-12 col-md-4 align-self-end">
+        <div class="d-grid gap-2 d-md-flex">
+          <button type="submit" class="btn green-btn col searchbtn">Применить</button>
+          <button type="reset" class="btn light-btn col">Сбросить</button>
         </div>
-  
-        <div class="col-12 col-md-4 align-self-end">
-          <div class="d-grid gap-2 d-md-flex">
-            <button type="button" class="btn green-btn col">Применить</button>
-            <button type="reset" class="btn light-btn col">Сбросить</button>
-          </div>
-        </div>
+      </div>
       
     </div>
   </div>
